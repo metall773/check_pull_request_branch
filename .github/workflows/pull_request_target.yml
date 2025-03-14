@@ -1,0 +1,36 @@
+name: PR-check-terget
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+    branches:
+    - main
+    - prod
+    - staging
+
+env:
+  VALIDWAY: 'dev-staging staging-prod staging-main'
+
+jobs:
+  merge-order-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: export
+        run: 
+          export
+
+      - name: debug
+        run: |
+          echo --------- some debug ---------
+          export CURRENTSETUP=$GITHUB_HEAD_REF-$GITHUB_BASE_REF
+          echo valid $VALIDWAY
+          echo current $CURRENTSETUP
+          echo github.event.pull_request.head.sha ${{ github.event.pull_request.head.sha }}
+          echo github.event.before ${{ github.event.before }}
+          echo github.event.after ${{ github.event.after }}
+          echo GITHUB_WORKFLOW_SHA $GITHUB_WORKFLOW_SHA
+          echo GITHUB_WORKFLOW_REF $GITHUB_WORKFLOW_REF
+  
+      - name: merge-order-check
+        run: |
+          echo "$GITHUB_HEAD_REF-$GITHUB_BASE_REF In case of error, branch merge order is wrong, check readme";
+          [[ $VALIDWAY =~ (^|[[:space:]])$GITHUB_HEAD_REF-$GITHUB_BASE_REF($|[[:space:]]) ]] && echo 'All ok' || exit 1
