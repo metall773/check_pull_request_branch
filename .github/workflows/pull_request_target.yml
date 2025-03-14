@@ -1,4 +1,4 @@
-name: PR-check-terget
+name: PR-check-target
 on:
   pull_request_target:
     types: [opened, reopened, synchronize]
@@ -11,7 +11,7 @@ env:
   VALIDWAY: 'dev-staging staging-prod staging-main'
 
 jobs:
-  merge-order-check:
+  merge-order-check-target:
     runs-on: ubuntu-latest
     steps:
       - name: export
@@ -30,7 +30,7 @@ jobs:
           echo GITHUB_WORKFLOW_SHA $GITHUB_WORKFLOW_SHA
           echo GITHUB_WORKFLOW_REF $GITHUB_WORKFLOW_REF
   
-      - name: merge-order-check
+      - name: merge-order-check-target
         run: |
           echo "$GITHUB_HEAD_REF-$GITHUB_BASE_REF In case of error, branch merge order is wrong, check readme";
           [[ $VALIDWAY =~ (^|[[:space:]])$GITHUB_HEAD_REF-$GITHUB_BASE_REF($|[[:space:]]) ]] && echo 'All ok' || exit 1
