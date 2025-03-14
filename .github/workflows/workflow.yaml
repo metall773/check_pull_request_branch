@@ -33,6 +33,12 @@ jobs:
             exit 1
           fi
         shell: bash
+      - name: debug
+        run: |
+          echo sha: ${{ steps.comment-branch.outputs.head_sha }}
+          echo token: ${{ secrets.GITHUB_TOKEN }}
+          echo status: ${{ job.status }}
+
       - name: Set final commit status
         uses: myrotvorets/set-commit-status-action@master
         if: always()
