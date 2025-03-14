@@ -12,7 +12,7 @@ env:
 
 jobs:
   merge-order-check:
-    runs-on: solinas
+    runs-on: ubuntu-latest
     steps:
       - name: export
         run: 
